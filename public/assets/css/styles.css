@@ -486,6 +486,10 @@ progress {
   display: none !important;
 }
 
+.admin-dashboard svg {
+  width: 16px;
+}
+
 .lead {
   font-size: 1.25rem;
   font-weight: 300;
