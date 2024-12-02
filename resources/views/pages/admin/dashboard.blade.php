@@ -1,6 +1,6 @@
 <x-app-layout>
     <div class="d-flex justify-content-end mt-1 px-1">
-        <button class="btn btn-primary">Produkt hinzufügen</button>
+        <a class="btn btn-primary" href="{{ route('products.create') }}">Product hinzufügen</a>
       </div>
     <section class="py-5 admin-dashboard">
           
