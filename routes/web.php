@@ -2,18 +2,25 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProductManagementController;
+use App\Models\Product;
+use Flasher\Laravel\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Flasher\Notyf\Prime\NotyfInterface;
 
 Route::get('/', function () {
-    return view('pages.home');
+    $products = Product::all();
+    return view('pages.home',compact('products'));
 })->name('home');
 
 Route::get('/dashboard', function () {
-    return view('pages.admin.dashboard');
+   
+    if(request('created'))
+        notyf()->success('Das Produkt wurde erfolgreich angelegt.');
+    $products = Product::all();
+    return view('pages.admin.dashboard',compact('products'));
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::resource('products', ProductManagementController::class)->middleware('auth');
-Route::get('products/create', [ProductManagementController::class, 'createProductPage'])->name('products.create');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

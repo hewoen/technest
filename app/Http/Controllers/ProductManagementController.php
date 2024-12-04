@@ -2,18 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CreateProductRequest;
 use App\Models\Product;
+use App\Models\ProductImage;
 use Illuminate\Http\Request;
 
 class ProductManagementController extends Controller
 {
-    /**
-     * Display form to create a product.
-     */
-    public function createProductPage()
-    {
-        return view('pages.admin.create-product');
-    }
 
     /**
      * Edit product page
@@ -28,15 +23,31 @@ class ProductManagementController extends Controller
      */
     public function create()
     {
-        //
+        return view('pages.admin.create-product');
+
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(CreateProductRequest $request)
     {
-        //
+        $product = new Product();
+        $product->name = $request->name;
+        $product->stock = $request->stock;
+        $product->price = $request->price;
+        $product->description = $request->description;
+        $product->save();
+        
+        foreach($request->file('images') as $image){
+            $productImage = new ProductImage(); 
+            $productImage->product_id = $product->id;
+            $productImage->path = "/storage/" . $image->store('uploads', 'public');
+            $productImage->save();
+        }
+
+        return redirect()->route('dashboard','created=1');
+        
     }
 
     /**
