@@ -6,6 +6,7 @@ use App\Http\Requests\CreateProductRequest;
 use App\Models\Product;
 use App\Models\ProductImage;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 
 class ProductManagementController extends Controller
 {
@@ -79,6 +80,11 @@ class ProductManagementController extends Controller
      */
     public function destroy(Product $product)
     {
-        //
+        foreach($product->images as $image){
+            $path = public_path($image->path);
+            File::delete($path);
+        }
+        $product->delete();
+        return redirect()->route('dashboard','deleted=1');
     }
 }

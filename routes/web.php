@@ -16,6 +16,8 @@ Route::get('/dashboard', function () {
    
     if(request('created'))
         notyf()->success('Das Produkt wurde erfolgreich angelegt.');
+    if(request('deleted'))
+        notyf()->success('Das Produkt wurde erfolgreich gelöscht.');
     $products = Product::all();
     return view('pages.admin.dashboard',compact('products'));
 })->middleware(['auth', 'verified'])->name('dashboard');
