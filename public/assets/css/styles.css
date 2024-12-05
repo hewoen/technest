@@ -93,6 +93,13 @@
   color: var(--colorBlack);
 }
 
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  background-color: black; /* Für schwarze Pfeile */
+  /* oder */
+  /* background-color: grey;  Für graue Pfeile */
+}
+
 *,
 *::before,
 *::after {

@@ -19,7 +19,31 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-md-12 col-lg-6"><img src="{{ $product->images[0]->path }}" alt=""></div>
+            <div class="col-md-12 col-lg-6">
+                <div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
+                    <div class="carousel-inner">
+                        @foreach ($product->images as $i=>$image)
+                        <div class="carousel-item {{ $i==0 ? "active" : "" }}">
+                            <img src="{{ $image->path }}" class="d-block w-100" alt="">
+                          </div>
+                        @endforeach
+            
+                    </div>
+                @if (count($product->images) > 1)
+                <a class="carousel-control-prev" href="#carouselExample" role="button" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                  </a>
+                  <a class="carousel-control-next" href="#carouselExample" role="button" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                  </a>
+                @endif;
+                        
+                    
+    
+                  </div>
+            </div>
             <div class="col-4 d-none d-md-block">
                 <h2>{{ $product->name }}</h2>
                 <h6 class="my-2">Auf Lager: {{ $product->stock }} Stück</h6>
