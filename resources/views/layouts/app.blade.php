@@ -9,6 +9,7 @@
         <!-- Core theme JS-->
         <script src="{{ asset('assets/js/scripts.js') }}"></script>
         <script src="{{asset('assets/js/tinymce/tinymce.min.js')}}"></script>
+        <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
         {{ $scripts ?? '' }}
     </body>
 </html>

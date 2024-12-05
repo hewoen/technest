@@ -17,7 +17,7 @@
                     <!-- Product actions-->
                     <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
                         @if ($role == 'user')
-                            <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">Zum
+                            <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="{{ route('products.show',$product->id) }}">Zum
                                     Produkt</a>
                             </div>
                         @else

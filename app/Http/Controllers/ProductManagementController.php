@@ -56,7 +56,7 @@ class ProductManagementController extends Controller
      */
     public function show(Product $product)
     {
-        //
+        return view('pages.product-details', compact('product'));
     }
 
     /**

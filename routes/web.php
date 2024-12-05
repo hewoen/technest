@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProductManagementController;
+use App\Http\Controllers\CartController;
 use App\Models\Product;
 use Flasher\Laravel\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -23,6 +24,8 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::resource('products', ProductManagementController::class)->middleware('auth');
+Route::get('/products/{product}', [ProductManagementController::class, 'show'])->name('products.show');
+Route::resource('cart', CartController::class)->middleware('auth');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
