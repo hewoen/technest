@@ -83,13 +83,22 @@
 .thumbnail {
   width: 150px;
   height: 150px;
-  overflow: hidden;
+  object-fit: scale-down;
 }
 
 .product-details img {
-  width: 100%;
-  height: auto;
+  height: 600px;
+  width: auto;
+  object-fit: scale-down;
 }
+
+@media (max-width: 768px) {
+  .product-details img {
+    height: 400px;
+  }
+}
+
+
 
 .product-details h6 {
   margin: 0;

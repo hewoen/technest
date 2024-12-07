@@ -9,7 +9,8 @@
                 <h6 class="my-2">Preis: {{ str_replace('.', ',', $product->price) }} €</h6>
                 <div class="d-flex align-items-center my-2">
                     <button class="btn btn-danger decrement">-</button>
-                    <input style="width: 50px;" class="form-control" value="0" type="text" name="amount" id="">
+                    <input style="width: 50px;" class="form-control" value="0" type="text" name="amount"
+                        id="">
                     <button class="btn btn-success increment">+</button>
                 </div>
                 <button type="button" class="btn btn-dark put-into-cart">In den Warenkorb</button>
@@ -22,27 +23,29 @@
             <div class="col-md-12 col-lg-6">
                 <div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
                     <div class="carousel-inner">
-                        @foreach ($product->images as $i=>$image)
-                        <div class="carousel-item {{ $i==0 ? "active" : "" }}">
-                            <img src="{{ $image->path }}" class="d-block w-100" alt="">
-                          </div>
+                        @foreach ($product->images as $i => $image)
+                            <div class="carousel-item {{ $i == 0 ? 'active' : '' }}">
+                                <div class="text-center">
+                                    <img src="{{ $image->path }}" alt="">
+                                </div>
+                            </div>
                         @endforeach
-            
+
                     </div>
-                @if (count($product->images) > 1)
-                <a class="carousel-control-prev" href="#carouselExample" role="button" data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Previous</span>
-                  </a>
-                  <a class="carousel-control-next" href="#carouselExample" role="button" data-bs-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Next</span>
-                  </a>
-                @endif;
-                        
-                    
-    
-                  </div>
+                    @if (count($product->images) > 1)
+                        <a class="carousel-control-prev" href="#carouselExample" role="button" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </a>
+                        <a class="carousel-control-next" href="#carouselExample" role="button" data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </a>
+                    @endif;
+
+
+
+                </div>
             </div>
             <div class="col-4 d-none d-md-block">
                 <h2>{{ $product->name }}</h2>
@@ -50,7 +53,8 @@
                 <h6 class="my-2">Preis: {{ str_replace('.', ',', $product->price) }} €</h6>
                 <div class="d-flex align-items-center my-2">
                     <button class="btn btn-danger decrement">-</button>
-                    <input style="width: 50px;" class="form-control" value="0" type="text" name="amount" id="">
+                    <input style="width: 50px;" class="form-control" value="0" type="text" name="amount"
+                        id="">
                     <button class="btn btn-success increment">+</button>
                 </div>
                 <button type="button" class="btn btn-dark put-into-cart">In den Warenkorb</button>
@@ -78,8 +82,7 @@
                 $('.put-into-cart').on('click', function() {
                     //Send a Ajax request to route 'cart.add' with the product id and the amount
                     //Increment the cart amount in the navbar by 1 if the request was successful
-                    if($('input[name="amount"]').val()==0)
-                    {
+                    if ($('input[name="amount"]').val() == 0) {
                         alert('Bitte geben Sie eine Stückzahl ein!');
                         return;
                     }
@@ -98,12 +101,14 @@
                         },
                         error: function(response) {
                             //If the field response.msg exists, show the message with notyf.error() otherwise show a default message
-                            const defaultErrorMessage = 'Das Produkt konnte nicht in den Warenkorb gelegt werden!';
-                            try{
+                            const defaultErrorMessage =
+                                'Das Produkt konnte nicht in den Warenkorb gelegt werden!';
+                            try {
                                 response = JSON.parse(response.responseText);
-                            }
-                            catch(e){
-                                response = {message: defaultErrorMessage};
+                            } catch (e) {
+                                response = {
+                                    message: defaultErrorMessage
+                                };
                             }
 
                             if (response.message) {
