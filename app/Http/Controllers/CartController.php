@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 class CartController extends Controller
@@ -11,7 +12,15 @@ class CartController extends Controller
      */
     public function index()
     {
-        //
+        $cart = [];
+        foreach(session()->get('cart', []) as $product_id => $amount){
+            $cart[] = [
+                "product" => Product::find($product_id),
+                "amount" => $amount
+            ];
+        }
+
+        return view('pages.cart',compact('cart'));
     }
 
     /**
@@ -61,9 +70,16 @@ class CartController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, string $product_id)
     {
-        //
+        
+        //If the product is in the cart for this user, update the amount in the cart session and send HTTP-Response 200
+        if(isset(session()->get('cart')[$product_id]) && $request->amount > 0){
+            $cart = session()->get('cart');
+            $cart[$product_id] = $request->amount;
+            session()->put('cart', $cart);
+        }
+        return redirect()->route('cart.index');
     }
 
     /**
@@ -71,6 +87,16 @@ class CartController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        //If the product is in the cart for this user, remove the product from the cart session and send HTTP-Response 200
+        //Otherwise send HTTP-Response 404 and a message that the product is not in the cart as JSON in field "message";
+        if(isset(session()->get('cart')[$id])){
+            $cart = session()->get('cart');
+            unset($cart[$id]);
+            session()->put('cart', $cart);
+            show_notification('success', 'Das Produkt wurde erfolgreich aus dem Warenkorb entfernt.');
+        }
+
+        return redirect()->route('cart.index');
+
     }
 }

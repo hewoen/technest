@@ -24,6 +24,7 @@ class ProductManagementController extends Controller
      */
     public function create()
     {
+        show_notification('success', 'Das Produkt wurde erfolgreich erstellt.');
         return view('pages.admin.create-product');
 
     }
@@ -85,6 +86,7 @@ class ProductManagementController extends Controller
             File::delete($path);
         }
         $product->delete();
-        return redirect()->route('dashboard','deleted=1');
+        show_notification('success', 'Das Produkt wurde erfolgreich gelöscht.');
+        return redirect()->route('dashboard');
     }
 }

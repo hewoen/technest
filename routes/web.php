@@ -15,17 +15,13 @@ Route::get('/', function () {
 
 Route::get('/dashboard', function () {
    
-    if(request('created'))
-        notyf()->success('Das Produkt wurde erfolgreich angelegt.');
-    if(request('deleted'))
-        notyf()->success('Das Produkt wurde erfolgreich gelöscht.');
     $products = Product::all();
     return view('pages.admin.dashboard',compact('products'));
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::resource('products', ProductManagementController::class)->middleware('auth');
 Route::get('/products/{product}', [ProductManagementController::class, 'show'])->name('products.show');
-Route::resource('cart', CartController::class)->middleware('auth');
+Route::resource('cart', CartController::class);
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

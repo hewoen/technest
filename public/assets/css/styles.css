@@ -80,6 +80,12 @@
   --bs-highlight-bg: #fff3cd;
 }
 
+.thumbnail {
+  width: 150px;
+  height: 150px;
+  overflow: hidden;
+}
+
 .product-details img {
   width: 100%;
   height: auto;

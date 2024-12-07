@@ -38,10 +38,10 @@
                             </li> --}}
                         </ul>
                         <form class="d-flex">
-                            <button class="btn btn-outline-dark" type="submit">
+                            <a class="btn btn-outline-dark" href="{{ route('cart.index') }}">
                                 <i class="bi-cart-fill me-1"></i>
                                 <span class="badge bg-dark text-white ms-1 rounded-pill cart-amount">{{ $amount }}</span>
-                            </button>
+                            </a>
                         </form>
                     </div>
                 </div>
