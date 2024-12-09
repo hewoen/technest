@@ -59,7 +59,7 @@
         </div>
         <div class="d-flex justify-content-end mt-3">
             <a class="btn btn-dark me-2" href="{{ route('home') }}">Einkauf fortsetzen</a>
-            <button class="btn btn-primary">Zur Kasse</button>
+            <a href="{{ route('order.customer-information') }}" class="btn btn-primary">Zur Kasse</a>
         </div>
         @endif
     </section>

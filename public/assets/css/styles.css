@@ -92,6 +92,44 @@
   object-fit: scale-down;
 }
 
+.step {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+.step .circle {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #ddd;
+  color: #333;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+}
+.step .circle.active {
+  background: #007bff;
+  color: white;
+}
+.step .line {
+  height: 4px;
+  background: #ddd;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: -1;
+  width: 100%;
+}
+.step .line.active {
+  background: #007bff;
+}
+.step:last-child .line {
+  display: none;
+}
+
 @media (max-width: 768px) {
   .product-details img {
     height: 400px;

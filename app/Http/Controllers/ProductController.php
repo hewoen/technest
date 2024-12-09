@@ -9,7 +9,7 @@ use App\Models\ProductImage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 
-class ProductManagementController extends Controller
+class ProductController extends Controller
 {
 
     /**
