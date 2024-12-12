@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CustomerInformationRequest;
 use App\Models\Order;
 use App\Models\OrderDetails;
+use App\Models\OrderHistory;
 use App\Models\Orders;
 use Illuminate\Http\Request;
 use App\Models\Product;
@@ -85,6 +86,11 @@ class OrderController extends Controller
             $orderDetails->save();
         }
 
+        $orderHistory = new OrderHistory();
+        $orderHistory->order_id = $order->id;
+        $orderHistory->status = 'order placed';
+        $orderHistory->save();
+
         session()->forget('cart');
         session()->forget('customerInformation');
 
@@ -99,7 +105,6 @@ class OrderController extends Controller
                 break;
         }
 
-        dd($paymentMethod);
     }
 
 

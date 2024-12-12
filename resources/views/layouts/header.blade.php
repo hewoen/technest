@@ -34,6 +34,14 @@
                             <li class="nav-item">
                                 <a class="nav-link {{ Route::currentRouteName() == 'dashboard' ? 'active' : '' }}" href="{{ route('dashboard') }}">Dashboard</a>
                             </li>
+                                               <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle {{ str_contains(Route::currentRouteName(),'order-processing') ? 'active' : '' }}" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Bestellübersicht</a>
+                            <ul class="dropdown-menu  aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item {{  Route::currentRouteName() == 'order-processing.open' ? 'active' : '' }}" href="{{ route('order-processing.open') }}">Offene Bestellungen</a></li>
+                                <li><a class="dropdown-item" href="{{ route('order-processing.closed') }}">Geschlossene Bestellungen</a></li>
+                            </ul>
+                        </li>
+                    
                             <li class="nav-item">
                                 <a class="nav-link" onclick="$('.logout-form').submit()" href="javascript:;">Logout</a>
                                 <form action="{{ route('logout') }}" class="logout-form" method="post">
