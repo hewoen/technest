@@ -9,4 +9,13 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Order extends Model
 {
     use SoftDeletes;
+
+    function details(){
+        return $this->hasMany(OrderDetails::class);
+    }
+
+    function history(){
+        return $this->hasMany(OrderHistory::class);
+    }
+
 }

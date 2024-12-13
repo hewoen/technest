@@ -1,7 +1,7 @@
 <x-customer-email>
-    <h2>{{ __('Vielen Dank für Ihre Bestellung, !') }}</h2>
+    <h2>{{ __('Vielen Dank für Ihre Bestellung !') }}</h2>
     <p>
-        {{ __('Wir haben Ihre Bestellung mit der Nummer') }} <strong>{{ $order_id }}</strong> {{ __('erhalten') }}.
+        {{ __('Wir haben Ihre Bestellung mit der Nummer') }} <strong>{{ $order->id }}</strong> {{ __('erhalten') }}.
         {{ __('Sobald wir Ihre Zahlung bestätigt haben, wird Ihre Bestellung bearbeitet.') }}
     </p>
     <hr>
@@ -16,18 +16,18 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($orderDetails as $orderDetail)
+                @foreach ($order->details as $orderDetail)
                     <tr>
                         <td>{{ $orderDetail->product->name }}</td>
                         <td>{{ $orderDetail->amount }}</td>
-                        <td>{{ $orderDetail->product->price € }}</td>
+                        <td>{{ number_format($orderDetail->product->price,2,",",".")  }} €</td>
                     </tr>
                 @endforeach
             </tbody>
         </table>
-        <p><b>{{ (__('Gesamtbetrag: ')) }}</b> {{ $total }}</p>
+        <p><b>{{ (__('Gesamtbetrag: ')) }}</b> {{ number_format($order->total,2,",",".") }} €</p>
     </div>
-    @if ($paymentMethod=="bank_transfer")
+    @if ($order->paymentMethod=="bank_transfer")
     <div>
         <hr>
         {{ __('Sie haben sich für eine Zahlung per Banküberweisung entschieden.') }} <br>
@@ -37,7 +37,7 @@
             <b>{{ __('Bank') }}:</b> Musterbank AG <br>
             <b>{{ __('IBAN') }}:</b> DE89 3704 0044 0532 0130 00 <br>
             <b>{{ __('BIC (SWIFT)') }}:</b> COBADEFFXXX <br>
-            <b>{{ __('Verwendungszweck') }}:</b> {{ __(' Bestellnummer') }} {{ $order_id }}
+            <b>{{ __('Verwendungszweck') }}:</b> {{ __(' Bestellnummer') }} {{ $order->id }}
 
         </div>
 

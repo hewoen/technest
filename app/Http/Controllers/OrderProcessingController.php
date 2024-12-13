@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\OrderShippedMail;
+use App\Mail\CancelOrderMail;
 use App\Models\Order;
-use App\Models\OrderDetails;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
 use App\Models\OrderHistory;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\PaymentReceivedMail;
 
 class OrderProcessingController extends Controller
 {
@@ -37,7 +39,7 @@ class OrderProcessingController extends Controller
     function showOrderDetails($id){
         $cart=[];
         $order = Order::withTrashed()->findOrFail($id);
-        $orderDetails = OrderDetails::where('order_id', $id)->get();
+        $orderDetails = $order->details;
         $orderHistory = OrderHistory::where('order_id', $id)->orderByDesc('created_at')->get();
         return view('pages.admin.order-processing.details', compact('orderHistory','order', 'orderDetails'));
     }
@@ -55,6 +57,8 @@ class OrderProcessingController extends Controller
         }
 
         $order = Order::withTrashed()->findOrFail($id);
+        $customerInformation = json_decode($order->delivery_address);
+
 
         switch($request->action){
             case 'mark_as_paid':
@@ -64,6 +68,11 @@ class OrderProcessingController extends Controller
                 $order->payment_status = 'paid';
                 $historyStatus = $order->payment_status;
                 $order->save();
+                $orderHistory = new OrderHistory();
+                $orderHistory->order_id = $id;
+                $orderHistory->status = $historyStatus;
+                $orderHistory->save();
+                Mail::to($customerInformation->email)->queue(new PaymentReceivedMail($order));
                 break;
             case 'mark_as_shipped':
                 if($order->order_status == 'shipped'){
@@ -73,6 +82,11 @@ class OrderProcessingController extends Controller
                 $historyStatus =  $order->order_status;
                 $order->save();
                 $order->delete();
+                $orderHistory = new OrderHistory();
+                $orderHistory->order_id = $id;
+                $orderHistory->status = $historyStatus;
+                $orderHistory->save();
+                Mail::to($customerInformation->email)->queue(new OrderShippedMail($order));
                 break;
             case 'cancel_order':
                 if($order->order_status == 'cancelled'){
@@ -82,15 +96,17 @@ class OrderProcessingController extends Controller
                 $historyStatus =  $order->order_status;
                 $order->save();
                 $order->delete();
+                $orderHistory = new OrderHistory();
+                $orderHistory->order_id = $id;
+                $orderHistory->status = $historyStatus;
+                $orderHistory->save();
+                Mail::to($customerInformation->email)->queue(new CancelOrderMail($order));
                 break;
         }
 
         
 
-        $orderHistory = new OrderHistory();
-        $orderHistory->order_id = $id;
-        $orderHistory->status = $historyStatus;
-        $orderHistory->save();
+     
 
         show_notification('success', __('Bestellung aktualisiert'));
         return redirect()->back();

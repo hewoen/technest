@@ -9,6 +9,8 @@ use App\Models\OrderHistory;
 use App\Models\Orders;
 use Illuminate\Http\Request;
 use App\Models\Product;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\OrderReceivedMail;
 
 class OrderController extends Controller
 {
@@ -75,6 +77,7 @@ class OrderController extends Controller
         $order->delivery_address = json_encode(session()->get('customerInformation'));
         $order->total = $this->getTotalPrice();
         $order->save();
+
         
 
         foreach (session()->get('cart') as $product_id => $amount) {
@@ -105,6 +108,8 @@ class OrderController extends Controller
                 break;
         }
 
+
+
     }
 
 
@@ -113,6 +118,9 @@ class OrderController extends Controller
         if(!session()->has('order_id')){
             return redirect()->route('home');
         }
+        $order = Order::find(session()->get('order_id'));
+        $customerInformation = json_decode($order->delivery_address);
+        Mail::to($customerInformation->email)->queue(new OrderReceivedMail($order));
         $order_id = session()->pull('order_id');
         $paymentMethod = session()->pull('payment_method');
         return view('pages.order.confirmation', compact('order_id', 'paymentMethod'));
