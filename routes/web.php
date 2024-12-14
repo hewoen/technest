@@ -7,6 +7,7 @@ use App\Http\Controllers\OrderProcessingController;
 use App\Http\Controllers\ProductController;
 use App\Models\Product;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\StripeController;
 
 
 Route::get('/', function () {
@@ -20,6 +21,9 @@ Route::get('/dashboard', function () {
     return view('pages.admin.dashboard',compact('products'));
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+Route::get('stripe', [StripeController::class, 'stripe']);
+Route::post('stripe/create-checkout-session', [StripeController::class, 'createCheckoutSession'])->name("stripe.create-checkout-session");
+Route::get('stripe/return/{session_id}', [StripeController::class, 'paymentReturn'])->name("stripe.return");
 
 Route::resource('products', ProductController::class)->middleware('auth');
 

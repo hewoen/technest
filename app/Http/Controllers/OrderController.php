@@ -57,9 +57,9 @@ class OrderController extends Controller
         foreach ($cart as $product_id => $amount) {
             $total += Product::find($product_id)->price * $amount;
         }
-        $total += Product::find($product_id)->price * $amount;
         return $total;
     }
+
 
     public function processPayment(Request $request)
     {
@@ -94,8 +94,7 @@ class OrderController extends Controller
         $orderHistory->status = 'order placed';
         $orderHistory->save();
 
-        session()->forget('cart');
-        session()->forget('customerInformation');
+
 
         session()->put('order_id', $order->id);
         session()->put('payment_method', $paymentMethod);
@@ -104,7 +103,7 @@ class OrderController extends Controller
             case "bank_transfer";
                 return redirect()->route('order.confirmation');
             case 'stripe';
-
+                return view('pages.order.payment-stripe');
                 break;
         }
 
@@ -118,6 +117,10 @@ class OrderController extends Controller
         if(!session()->has('order_id')){
             return redirect()->route('home');
         }
+
+        session()->forget('cart');
+        session()->forget('customerInformation');
+
         $order = Order::find(session()->get('order_id'));
         $customerInformation = json_decode($order->delivery_address);
         Mail::to($customerInformation->email)->queue(new OrderReceivedMail($order));
