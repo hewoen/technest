@@ -27,7 +27,7 @@
         </table>
         <p><b>{{ (__('Gesamtbetrag: ')) }}</b> {{ number_format($order->total,2,",",".") }} €</p>
     </div>
-    @if ($order->paymentMethod=="bank_transfer")
+    @if ($order->payment_method=="bank_transfer")
     <div>
         <hr>
         {{ __('Sie haben sich für eine Zahlung per Banküberweisung entschieden.') }} <br>

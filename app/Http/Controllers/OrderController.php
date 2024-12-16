@@ -11,6 +11,10 @@ use Illuminate\Http\Request;
 use App\Models\Product;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\OrderReceivedMail;
+use Faker\Provider\ar_EG\Payment;
+use App\Enums\PaymentMethod;
+use App\Enums\OrderStatus;
+use App\Enums\PaymentStatus;
 
 class OrderController extends Controller
 {
@@ -48,6 +52,7 @@ class OrderController extends Controller
 
     public function payment()
     {
+
         return view('pages.order.payment');
     }
 
@@ -64,16 +69,16 @@ class OrderController extends Controller
     public function processPayment(Request $request)
     {
         $paymentMethod = $request->payment_method;
-        if(!in_array($paymentMethod, ['bank_transfer', 'stripe'])){
+        if(!PaymentMethod::tryFrom($paymentMethod)){
             show_notification('error', 'Ungültige Zahlungsmethode');
             return redirect()->route('home');   
         }
 
         $order = new Order();   
 
-        $order->order_status = 'pending';
-        $order->payment_status = 'pending';
-        $order->payment_method = $paymentMethod;
+        $order->order_status = OrderStatus::PENDING;
+        $order->payment_status = PaymentStatus::PENDING;
+        $order->payment_method = PaymentMethod::tryFrom($paymentMethod);
         $order->delivery_address = json_encode(session()->get('customerInformation'));
         $order->total = $this->getTotalPrice();
         $order->save();
@@ -91,13 +96,14 @@ class OrderController extends Controller
 
         $orderHistory = new OrderHistory();
         $orderHistory->order_id = $order->id;
-        $orderHistory->status = 'order placed';
+        $orderHistory->status = OrderStatus::PENDING;
         $orderHistory->save();
 
 
 
         session()->put('order_id', $order->id);
         session()->put('payment_method', $paymentMethod);
+
 
         switch ($paymentMethod) {
             case "bank_transfer";
@@ -118,14 +124,14 @@ class OrderController extends Controller
             return redirect()->route('home');
         }
 
-        session()->forget('cart');
         session()->forget('customerInformation');
+        session()->forget('cart');
 
-        $order = Order::find(session()->get('order_id'));
+        $order_id = session()->pull('order_id');
+        $order = Order::find($order_id);
+        $paymentMethod = session()->pull('payment_method');
         $customerInformation = json_decode($order->delivery_address);
         Mail::to($customerInformation->email)->queue(new OrderReceivedMail($order));
-        $order_id = session()->pull('order_id');
-        $paymentMethod = session()->pull('payment_method');
         return view('pages.order.confirmation', compact('order_id', 'paymentMethod'));
     }
 }

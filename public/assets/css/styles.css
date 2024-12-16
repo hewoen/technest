@@ -601,7 +601,7 @@ progress {
   display: none !important;
 }
 
-.admin-dashboard svg {
+.admin-dashboard svg, .cart svg {
   width: 16px;
 }
 

@@ -9,6 +9,10 @@ use Illuminate\Http\Request;
 use App\Models\OrderHistory;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\PaymentReceivedMail;
+use Faker\Provider\ar_EG\Payment;
+use App\Enums\PaymentStatus;
+use App\Enums\OrderStatus;
+
 
 class OrderProcessingController extends Controller
 {
@@ -62,11 +66,12 @@ class OrderProcessingController extends Controller
 
         switch($request->action){
             case 'mark_as_paid':
-                if($order->payment_status == 'paid'){
-                    return $this->alertMessageStatusDidntChange(__('bezahlt'));
+                if($order->payment_status == PaymentStatus::PAID){
+                    return $this->alertMessageStatusDidntChange(PaymentStatus::PAID->label());
                 }
-                $order->payment_status = 'paid';
-                $historyStatus = $order->payment_status;
+                $order->payment_status = PaymentStatus::PAID;
+                $order->order_status = OrderStatus::PROCESSING;
+                $historyStatus = $order->order_status;
                 $order->save();
                 $orderHistory = new OrderHistory();
                 $orderHistory->order_id = $id;
@@ -75,10 +80,10 @@ class OrderProcessingController extends Controller
                 Mail::to($customerInformation->email)->queue(new PaymentReceivedMail($order));
                 break;
             case 'mark_as_shipped':
-                if($order->order_status == 'shipped'){
+                if($order->order_status == OrderStatus::SHIPPED){
                     return $this->alertMessageStatusDidntChange(__('versendet'));
                 }
-                $order->order_status = 'shipped';
+                $order->order_status = OrderStatus::SHIPPED;
                 $historyStatus =  $order->order_status;
                 $order->save();
                 $order->delete();
@@ -89,10 +94,10 @@ class OrderProcessingController extends Controller
                 Mail::to($customerInformation->email)->queue(new OrderShippedMail($order));
                 break;
             case 'cancel_order':
-                if($order->order_status == 'cancelled'){
-                    return $this->alertMessageStatusDidntChange(__('storniert'));
+                if($order->order_status == OrderStatus::CANCELLED){
+                    return $this->alertMessageStatusDidntChange(OrderStatus::CANCELLED->label());
                 }
-                $order->order_status = 'cancelled';
+                $order->order_status = OrderStatus::CANCELLED;
                 $historyStatus =  $order->order_status;
                 $order->save();
                 $order->delete();

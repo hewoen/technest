@@ -2,6 +2,7 @@
 
 namespace App\Mail;
 
+use App\Enums\OrderStatus;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -23,7 +24,7 @@ class PaymentReceivedMail extends Mailable
     public function __construct(public Order $order)
     {
         $customerInformation = json_decode($order->delivery_address);
-        $lastPaidHistory = $order->history()->where('status', 'paid')->orderBy('created_at', 'desc')->first();
+        $lastPaidHistory = $order->history()->where('status', OrderStatus::PROCESSING)->orderBy('created_at', 'desc')->first();
         $this->paidDate = $lastPaidHistory->created_at;
         $this->customerName = $customerInformation->prename . ' ' . $customerInformation->lastname;
     }

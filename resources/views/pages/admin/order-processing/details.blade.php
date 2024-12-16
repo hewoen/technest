@@ -20,9 +20,9 @@
                 <tr>
                     <th class="d-none d-lg-table-cell" scope="row">{{ $order->id }}</th>
                     <td class="d-none d-lg-table-cell">{{ $order->created_at }}</td>
-                    <td>{{ $order->order_status }}</td>
-                    <td>{{ $order->payment_method }}</td>
-                    <td>{{ $order->payment_status }}</td>
+                    <td>{{ $order->order_status->label() }}</td>
+                    <td>{{ $order->payment_method->label() }}</td>
+                    <td>{{ $order->payment_status->label() }}</td>
                     <td>
                         {{ $customer->salutation }}<br>
                         {{ $customer->prename }} {{ $customer->lastname }}<br>
@@ -71,7 +71,7 @@
                 @foreach ($orderHistory as $item)
                     <tr>
                         <td>{{ $item->created_at }}</td>
-                        <td>{{ $item->status }}</td>
+                        <td>{{ $item->status->label() }}</td>
                     </tr>
                 @endforeach
             </tbody>

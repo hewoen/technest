@@ -2,6 +2,7 @@
 
 namespace App\Mail;
 
+use App\Enums\OrderStatus;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -23,7 +24,7 @@ class CancelOrderMail extends Mailable
     public function __construct(public Order $order)
     {
         $customerInformation = json_decode($order->delivery_address);
-        $lastCancelledHistory = $order->history()->where('status', 'cancelled')->orderBy('created_at', 'desc')->first();
+        $lastCancelledHistory = $order->history()->where('status', OrderStatus::CANCELLED)->orderBy('created_at', 'desc')->first();
         $this->cancellDate = $lastCancelledHistory->created_at;
         $this->customerName = $customerInformation->prename . ' ' . $customerInformation->lastname;
     }

@@ -17,8 +17,8 @@
                 <tr>
                     <td>{{ $order->id }}</td>
                     <td>{{ $order->created_at }}</td>
-                    <td>{{ $order->payment_method }}</td>
-                    <td>{{ $order->order_status }}</td>
+                    <td>{{ $order->payment_method->label() }}</td>
+                    <td>{{ $order->order_status->label() }}</td>
                     <td>{{ $order->total }}</td>
                     <td> <a href="{{ route('order-processing.show',$order->id) }}"><svg xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 512 512"><!--!Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
