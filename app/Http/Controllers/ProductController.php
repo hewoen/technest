@@ -18,7 +18,6 @@ class ProductController extends Controller
     public function create()
     {
         return view('pages.admin.create-product');
-
     }
 
     /**
@@ -32,16 +31,15 @@ class ProductController extends Controller
         $product->price = $request->price;
         $product->description = $request->description;
         $product->save();
-        
-        foreach($request->file('images') as $image){
-            $productImage = new ProductImage(); 
+
+        foreach ($request->file('images') as $image) {
+            $productImage = new ProductImage();
             $productImage->product_id = $product->id;
             $productImage->path = "/storage/" . $image->store('uploads', 'public');
             $productImage->save();
         }
         show_notification('success', 'Das Produkt wurde erfolgreich erstellt.');
         return redirect()->route('dashboard');
-        
     }
 
     /**
@@ -59,7 +57,6 @@ class ProductController extends Controller
     {
 
         return view('pages.admin.edit-product', compact('product'));
-
     }
 
     /**
@@ -74,13 +71,29 @@ class ProductController extends Controller
 
         $images = $request->file('images');
 
-        if($images != null && count($images) > 0){
-            foreach($product->images as $image){
+        $imageOrder = json_decode($request->order);
+        $imagesToDelete = json_decode($request->delete);
+
+        if ($imageOrder != null) {
+            foreach ($imageOrder as $i => $image) {
+                $productImage = ProductImage::find($image->id);
+                $productImage->position = $i;
+                $productImage->save();
+            }
+        }
+
+        if($imagesToDelete!=null) {
+            foreach($imagesToDelete as $imageId){
+                $image = ProductImage::find($imageId);
                 $path = public_path($image->path);
                 File::delete($path);
                 $image->delete();
             }
-            foreach($images as $image){
+        }
+
+        if ($images != null && count($images) > 0) {
+
+            foreach ($images as $image) {
                 $productImage = new ProductImage();
                 $productImage->product_id = $product->id;
                 $productImage->path = "/storage/" . $image->store('uploads', 'public');
@@ -88,6 +101,7 @@ class ProductController extends Controller
             }
         }
         $product->save();
+
         show_notification('success', 'Das Produkt wurde erfolgreich aktualisiert.');
         return redirect()->route('products.edit', $product->id);
     }
@@ -97,7 +111,7 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        foreach($product->images as $image){
+        foreach ($product->images as $image) {
             $path = public_path($image->path);
             File::delete($path);
         }

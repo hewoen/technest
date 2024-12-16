@@ -86,6 +86,17 @@
   object-fit: scale-down;
 }
 
+.marked-image{
+    opacity: 0.75; /* Deckkraft auf 75% */
+    border: 5px solid red; /* Roter Rahmen mit 5px Breite */
+}
+
+.product-list img {
+  height: 250px;
+  width: auto;
+  object-fit: scale-down;
+}
+
 .product-details img {
   height: 600px;
   width: auto;
