@@ -3,8 +3,11 @@
         @foreach ($products as $product)
             <div class="col mb-5">
                 <div class="card h-100">
+                    @php
+                        isset($product->images[0]) ? $imagePath = $product->images[0]->path : $imagePath = 'https://via.placeholder.com/300x200';
+                    @endphp
                     <!-- Product image-->
-                    <img class="card-img-top" src="{{ $product->images[0]->path }}" alt="..." />
+                    <img class="card-img-top" src="{{ $imagePath }}" alt="..." />
                     <!-- Product details-->
                     <div class="card-body p-4">
                         <div class="text-center">
