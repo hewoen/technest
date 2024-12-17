@@ -33,4 +33,20 @@ class CustomerInformationRequest extends FormRequest
             'house_number' => ['required', 'string', 'max:4'],
         ];
     }
+
+    public function messages()
+    {
+        return  [
+            'salutation.required' => 'Bitte geben Sie eine Anrede ein.',
+            'prename.required' => 'Bitte geben Sie einen Vornamen ein.',
+            'lastname.required' => 'Bitte geben Sie einen Nachnamen ein.',
+            'email.required' => 'Bitte geben Sie eine E-Mail-Adresse ein.',
+            'email.email' => 'Bitte geben Sie eine gültige E-Mail-Adresse ein.',
+            'zip.required' => 'Bitte geben Sie eine Postleitzahl ein.',
+            'zip.regex' => 'Die Postleitzahl darf nur Zahlen enthalten.',
+            'place.required' => 'Bitte geben Sie einen Ort ein.',
+            'street.required' => 'Bitte geben Sie eine Straße ein.',
+            'house_number.required' => 'Bitte geben Sie eine Hausnummer ein.',
+        ];
+    }
 }
