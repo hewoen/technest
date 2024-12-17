@@ -6,18 +6,22 @@ use App\Http\Requests\CustomerInformationRequest;
 use App\Models\Order;
 use App\Models\OrderDetails;
 use App\Models\OrderHistory;
-use App\Models\Orders;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\OrderReceivedMail;
-use Faker\Provider\ar_EG\Payment;
 use App\Enums\PaymentMethod;
 use App\Enums\OrderStatus;
 use App\Enums\PaymentStatus;
+use App\ProductTrait;
+
 
 class OrderController extends Controller
 {
+
+    use ProductTrait;
+
+
     public function customerInformation()
     {
         if (!session()->has('cart') || count(session()->get('cart')) === 0) {
@@ -39,12 +43,12 @@ class OrderController extends Controller
             ];
         }
         $customerInformation = session()->get('customerInformation');
-        
+
         return view('pages.order.order-overview', compact('cart', 'customerInformation'));
     }
 
     public function processCustomerInformation(CustomerInformationRequest $request)
-    {        
+    {
         $customerInformation = $request->all();
         session()->put('customerInformation', $customerInformation);
         return redirect()->route('order.overview');
@@ -52,11 +56,11 @@ class OrderController extends Controller
 
     public function payment()
     {
-
         return view('pages.order.payment');
     }
 
-    private function getTotalPrice(){
+    private function getTotalPrice()
+    {
         $cart = session()->get('cart');
         $total = 0;
         foreach ($cart as $product_id => $amount) {
@@ -68,13 +72,16 @@ class OrderController extends Controller
 
     public function processPayment(Request $request)
     {
+        
         $paymentMethod = $request->payment_method;
-        if(!PaymentMethod::tryFrom($paymentMethod)){
+        $cart = session()->get('cart');
+
+        if (!PaymentMethod::tryFrom($paymentMethod)) {
             show_notification('error', 'Ungültige Zahlungsmethode');
-            return redirect()->route('home');   
+            return redirect()->route('home');
         }
 
-        $order = new Order();   
+        $order = new Order();
 
         $order->order_status = OrderStatus::PENDING;
         $order->payment_status = PaymentStatus::PENDING;
@@ -83,9 +90,20 @@ class OrderController extends Controller
         $order->total = $this->getTotalPrice();
         $order->save();
 
-        
+        foreach ($cart as $product_id => $amount) {
+            $product = Product::find($product_id);
+            $availableStock = $this->getAvailableStockOfProduct($product);
+            if ($availableStock < $amount) {
+                show_notification('error', 'Die Bestellung konnte nicht ausgeführt werden, da ' . $product->name . ' nicht in der gewünschten Menge verfügbar ist.');
+                return redirect()->route('cart.index');
+            }
+        }
 
-        foreach (session()->get('cart') as $product_id => $amount) {
+        foreach ($cart as $product_id => $amount) {
+            if($paymentMethod != 'bank_transfer'){
+                $this->reserveProduct($order->id, $product_id, $amount);
+            }
+            $product = Product::find($product_id);
             $orderDetails = new OrderDetails();
             $orderDetails->order_id = $order->id;
             $orderDetails->product_id = $product_id;
@@ -107,22 +125,22 @@ class OrderController extends Controller
 
         switch ($paymentMethod) {
             case "bank_transfer";
+                $this->updateProductStockAfterCompletedOrder($order);
                 return redirect()->route('order.confirmation');
             case 'stripe';
                 return view('pages.order.payment-stripe');
                 break;
         }
-
-
-
     }
 
 
     public function confirmation()
     {
-        if(!session()->has('order_id')){
+        if (!session()->has('order_id')) {
             return redirect()->route('home');
         }
+
+
 
         session()->forget('customerInformation');
         session()->forget('cart');

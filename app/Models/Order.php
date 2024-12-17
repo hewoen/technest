@@ -21,6 +21,10 @@ class Order extends Model
         return $this->hasMany(OrderHistory::class);
     }
 
+    function products(){
+        return $this->belongsToMany(Product::class, 'order_details');
+    }
+
     public $casts = [
         'order_status' => OrderStatus::class,
         'payment_status' => PaymentStatus::class,

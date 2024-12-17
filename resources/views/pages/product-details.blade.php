@@ -1,3 +1,6 @@
+@php
+ $availableStockText = $availableStock==0 ? __('Das Produkt ist derzeit nicht verfügbar!') : __('Auf Lager: ') . $availableStock . __(' Stück'); 
+@endphp
 <x-app-layout>
     <div class="product-details">
         <div class="row">
@@ -5,7 +8,7 @@
             </div>
             <div class="col-10 d-block d-md-none">
                 <h2>{{ $product->name }}</h2>
-                <h6 class="my-2">Auf Lager: {{ $product->stock }} Stück</h6>
+                <h6 class="my-2">{{ $availableStockText }} </h6>
                 <h6 class="my-2">Preis: {{ str_replace('.', ',', $product->price) }} €</h6>
                 <div class="d-flex align-items-center my-2">
                     <button class="btn btn-danger decrement">-</button>
@@ -49,7 +52,7 @@
             </div>
             <div class="col-4 d-none d-md-block">
                 <h2>{{ $product->name }}</h2>
-                <h6 class="my-2">Auf Lager: {{ $product->stock }} Stück</h6>
+                <h6 class="my-2">{{ $availableStockText }}</h6>
                 <h6 class="my-2">Preis: {{ str_replace('.', ',', $product->price) }} €</h6>
                 <div class="d-flex align-items-center my-2">
                     <button class="btn btn-danger decrement">-</button>
@@ -57,7 +60,9 @@
                         id="">
                     <button class="btn btn-success increment">+</button>
                 </div>
+                @if($availableStock>0)
                 <button type="button" class="btn btn-dark put-into-cart">In den Warenkorb</button>
+                @endif
                 <p>{!! $product->description !!}</p>
             </div>
         </div>

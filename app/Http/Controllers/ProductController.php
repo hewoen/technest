@@ -8,10 +8,12 @@ use App\Models\Product;
 use App\Models\ProductImage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
+use App\ProductTrait;
+
 
 class ProductController extends Controller
 {
-
+    use ProductTrait;
     /**
      * Show the form for creating a new resource.
      */
@@ -47,7 +49,9 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
-        return view('pages.product-details', compact('product'));
+        $availableStock = $this->getAvailableStockOfProduct($product);
+        // dd($availableStock);
+        return view('pages.product-details', compact('product', 'availableStock'));
     }
 
     /**

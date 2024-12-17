@@ -35,7 +35,7 @@
                         <div class="form-group">
                             <label class="form-check-label" for="exampleCheck1">Bestand</label>
                             <input value="{{ $product->stock }}" style="width: 80px;" type="number" name="stock"
-                                class="form-control" id="quantity" name="quantity" value="1" min="1">
+                                class="form-control" id="quantity" name="quantity" value="1" min="0">
                         </div>
                         <div class="form-group">
                             <label class="form-check-label" for="exampleCheck1">Preis</label>

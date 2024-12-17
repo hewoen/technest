@@ -4,12 +4,16 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use Illuminate\Http\Request;
+use App\ProductTrait;
 
 class CartController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
+
+    use ProductTrait;
+
     public function index()
     {
         $cart = [];
@@ -42,6 +46,12 @@ class CartController extends Controller
             session()->put('cart', []);
         }
         if(!isset(session()->get('cart')[$request->product_id])){
+            
+            $product = Product::find($request->product_id);
+
+            if($request->amount > $this->getAvailableStockOfProduct($product)){
+                return response()->json(['message' => 'Das Produkt ist nicht in der gewünschten Menge verfügbar.'], 409);
+            }
             $cart = session()->get('cart');
             $cart[$request->product_id] = $request->amount;
             session()->put('cart', $cart);
@@ -75,6 +85,11 @@ class CartController extends Controller
         
         //If the product is in the cart for this user, update the amount in the cart session and send HTTP-Response 200
         if(isset(session()->get('cart')[$product_id]) && $request->amount > 0){
+            $product = Product::find($product_id);
+            if($request->amount > $this->getAvailableStockOfProduct($product)){
+                show_notification('error', 'Das Produkt ist nicht in der gewünschten Menge verfügbar.');
+                return redirect()->back();
+            }
             $cart = session()->get('cart');
             $cart[$product_id] = $request->amount;
             session()->put('cart', $cart);

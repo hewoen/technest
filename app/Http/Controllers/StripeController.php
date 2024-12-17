@@ -11,11 +11,12 @@ use App\Mail\PaymentReceivedMail;
 use Illuminate\Support\Facades\Mail;
 use App\Enums\PaymentStatus;
 use App\Enums\OrderStatus;
+use App\ProductTrait;
 
 
 class StripeController extends Controller
 {
-
+  use ProductTrait;
 
   function createCheckoutSession()
   {
@@ -67,8 +68,7 @@ class StripeController extends Controller
 
   function paymentReturn($session_id)
   {
-
-
+    $this->clearReservations(session()->get('order_id'));
 
     $stripe = new \Stripe\StripeClient(
       env('STRIPE_PRIVATE_KEY')
@@ -90,8 +90,11 @@ class StripeController extends Controller
       return view('pages.order.payment-error', ["stripe_session_id" => $session_id]);
     }
 
+    
+
     $stripe_payment->order->payment_status = PaymentStatus::PAID;
     $stripe_payment->order->order_status = OrderStatus::PROCESSING;
+    $this->updateProductStockAfterCompletedOrder($stripe_payment->order);
     $stripe_payment->order->save();
     $orderHistory = new OrderHistory();
     $orderHistory->order_id = $stripe_payment->order_id;
