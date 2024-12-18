@@ -23,15 +23,7 @@ services:
       - "db"
     ports: 
       - 8080:80
-    deploy:
-        resources:
-            limits:
-              memory: 2048M
-              cpus: '3.0'
-            reservations:
-              memory: 1024M
-              cpus: '2.0'
 
-    volumes:
-      - .\:/var/www/html
-      - .\storage\app\public:/var/www/html/public/storage
+ #   volumes:
+ #     - .\:/var/www/html
+ #     - .\storage\app\public:/var/www/html/public/storage
