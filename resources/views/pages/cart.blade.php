@@ -2,10 +2,10 @@
     <section class="py-5 px-5 cart">
         @if(count($cart) == 0)
             <div class="d-flex justify-content-center">
-                <h2>Der Warenkorb ist leer</h2>
+                <h2>{{ __('Der Warenkorb ist leer') }}</h2>
             </div>
             <div class="d-flex justify-content-end mt-3">
-                <a class="btn btn-dark me-2" href="{{ route('home') }}">Einkauf fortsetzen</a>
+                <a class="btn btn-dark me-2" href="{{ route('home') }}">{{ __('Einkauf fortsetzen') }}</a>
             </div>
         @else
         <table class="table">
@@ -13,9 +13,9 @@
                 <tr>
                     <th scope="col d-none" class="d-none d-lg-table-cell">#</th>
                     <th scope="col d-none" class="d-none d-lg-table-cell"></th>
-                    <th scope="col">Produkt</th>
-                    <th scope="col">Anzahl</th>
-                    <th scope="col">Preis</th>
+                    <th scope="col">{{ __('Produkt') }}</th>
+                    <th scope="col">{{ __('Anzahl') }}</th>
+                    <th scope="col">{{ __('Preis') }}</th>
                     <th scope="col"></th>
                 </tr>
             </thead>
@@ -46,7 +46,6 @@
                                     <path d="M135.2 17.7L128 32 32 32C14.3 32 0 46.3 0 64S14.3 96 32 96l384 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-96 0-7.2-14.3C307.4 6.8 296.3 0 284.2 0L163.8 0c-12.1 0-23.2 6.8-28.6 17.7zM416 128L32 128 53.2 467c1.6 25.3 22.6 45 47.9 45l245.8 0c25.3 0 46.3-19.7 47.9-45L416 128z"></path>
                                     </svg>
                                 </a>
-                                {{-- <button type="submit" class="btn btn-danger">Entfernen</button> --}}
                             </form>
                         </td>
                     </tr>
@@ -60,11 +59,11 @@
                     $total += $item['product']->price * $item['amount'];
                 }
             @endphp
-            <h4>Gesamtpreis: {{ number_format($total, 2, ',', '.') }} €</h4>
+            <h4>{{ __('Gesamtpreis') }}: {{ number_format($total, 2, ',', '.') }} €</h4>
         </div>
         <div class="d-flex justify-content-end mt-3">
-            <a class="btn btn-dark me-2" href="{{ route('home') }}">Einkauf fortsetzen</a>
-            <a href="{{ route('order.customer-information') }}" class="btn btn-primary">Zur Kasse</a>
+            <a class="btn btn-dark me-2" href="{{ route('home') }}">{{ __('Einkauf fortsetzen') }}</a>
+            <a href="{{ route('order.customer-information') }}" class="btn btn-primary">{{ __('Zur Kasse') }}</a>
         </div>
         @endif
     </section>
@@ -89,7 +88,7 @@
                 });
 
                 $('.delete-form').on('submit', function(e) {
-                    if (!confirm('Sind Sie sicher, dass Sie diesen Artikel entfernen möchten?')) {
+                    if (!confirm('{{ __('Sind Sie sicher, dass Sie diesen Artikel entfernen möchten?') }}')) {
                         e.preventDefault();
                     }
                 });

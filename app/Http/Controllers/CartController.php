@@ -50,14 +50,14 @@ class CartController extends Controller
             $product = Product::find($request->product_id);
 
             if($request->amount > $this->getAvailableStockOfProduct($product)){
-                return response()->json(['message' => 'Das Produkt ist nicht in der gewünschten Menge verfügbar.'], 409);
+                return response()->json(['message' => __('Das Produkt ist nicht in der gewünschten Menge verfügbar.')], 409);
             }
             $cart = session()->get('cart');
             $cart[$request->product_id] = $request->amount;
             session()->put('cart', $cart);
-            return response()->json(['message' => 'Das Produkt wurde erfolgreich in den Warenkorb gelegt.'], 200);
+            return response()->json(['message' => __('Das Produkt wurde erfolgreich in den Warenkorb gelegt.')], 200);
         }else{
-            return response()->json(['message' => 'Das Produkt ist bereits im Warenkorb.'], 409);
+            return response()->json(['message' => __('Das Produkt ist bereits im Warenkorb.')], 409);
         }
     }
 
@@ -87,7 +87,7 @@ class CartController extends Controller
         if(isset(session()->get('cart')[$product_id]) && $request->amount > 0){
             $product = Product::find($product_id);
             if($request->amount > $this->getAvailableStockOfProduct($product)){
-                show_notification('error', 'Das Produkt ist nicht in der gewünschten Menge verfügbar.');
+                show_notification('error', __('Das Produkt ist nicht in der gewünschten Menge verfügbar.'));
                 return redirect()->back();
             }
             $cart = session()->get('cart');
@@ -108,7 +108,7 @@ class CartController extends Controller
             $cart = session()->get('cart');
             unset($cart[$id]);
             session()->put('cart', $cart);
-            show_notification('success', 'Das Produkt wurde erfolgreich aus dem Warenkorb entfernt.');
+            show_notification('success', __('Das Produkt wurde erfolgreich aus dem Warenkorb entfernt.'));
         }
 
         return redirect()->route('cart.index');

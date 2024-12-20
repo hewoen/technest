@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>TechNest - Der Platz für innovative Tech-Lösungen.</title>
+        <title>{{ __('TechNest - Der Platz für innovative Tech-Lösungen.') }}</title>
         <!-- Favicon-->
         <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
         <!-- Bootstrap icons-->
@@ -20,30 +20,30 @@
         <!-- Navigation-->
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container px-4 px-lg-5">
-                <a class="navbar-brand" href="{{ route('home') }}">TechNest</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                <a class="navbar-brand" href="{{ route('home') }}">{{ __('TechNest') }}</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}"><span class="navbar-toggler-icon"></span></button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
-                        {{-- <li class="nav-item"><a class="nav-link active" aria-current="page" href="#!">Home</a></li> --}}
+                        {{-- <li class="nav-item"><a class="nav-link active" aria-current="page" href="#!">{{ __('Home') }}</a></li> --}}
                         @guest
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('login') }}">Admin</a>
+                                <a class="nav-link" href="{{ route('login') }}">{{ __('Admin') }}</a>
                             </li>
                         @endguest
                         @auth
                             <li class="nav-item">
-                                <a class="nav-link {{ Route::currentRouteName() == 'dashboard' ? 'active' : '' }}" href="{{ route('dashboard') }}">Dashboard</a>
+                                <a class="nav-link {{ Route::currentRouteName() == 'dashboard' ? 'active' : '' }}" href="{{ route('dashboard') }}">{{ __('Dashboard') }}</a>
                             </li>
                                                <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle {{ str_contains(Route::currentRouteName(),'order-processing') ? 'active' : '' }}" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Bestellübersicht</a>
-                            <ul class="dropdown-menu  aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item {{  Route::currentRouteName() == 'order-processing.open' ? 'active' : '' }}" href="{{ route('order-processing.open') }}">Offene Bestellungen</a></li>
-                                <li><a class="dropdown-item" href="{{ route('order-processing.closed') }}">Geschlossene Bestellungen</a></li>
+                            <a class="nav-link dropdown-toggle {{ str_contains(Route::currentRouteName(),'order-processing') ? 'active' : '' }}" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">{{ __('Bestellübersicht') }}</a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item {{  Route::currentRouteName() == 'order-processing.open' ? 'active' : '' }}" href="{{ route('order-processing.open') }}">{{ __('Offene Bestellungen') }}</a></li>
+                                <li><a class="dropdown-item" href="{{ route('order-processing.closed') }}">{{ __('Geschlossene Bestellungen') }}</a></li>
                             </ul>
                         </li>
                     
                             <li class="nav-item">
-                                <a class="nav-link" onclick="$('.logout-form').submit()" href="javascript:;">Logout</a>
+                                <a class="nav-link" onclick="$('.logout-form').submit()" href="javascript:;">{{ __('Logout') }}</a>
                                 <form action="{{ route('logout') }}" class="logout-form" method="post">
                                     @csrf
                                 </form>
@@ -73,7 +73,7 @@
             <div class="container px-4 px-lg-5 my-5">
                 <div class="text-center text-white">
                     <h1 class="display-4 fw-bolder">TechNest</h1>
-                    <p class="lead fw-normal text-white-50 mb-0">Der Platz für innovative Tech-Lösungen.</p>
+                    <p class="lead fw-normal text-white-50 mb-0">{{ __('Der Platz für innovative Tech-Lösungen.') }}</p>
                 </div>
             </div>
         </header>

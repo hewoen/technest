@@ -94,7 +94,7 @@ class OrderController extends Controller
             $product = Product::find($product_id);
             $availableStock = $this->getAvailableStockOfProduct($product);
             if ($availableStock < $amount) {
-                show_notification('error', 'Die Bestellung konnte nicht ausgeführt werden, da ' . $product->name . ' nicht in der gewünschten Menge verfügbar ist.');
+                show_notification('error', __('Die Bestellung konnte nicht ausgeführt werden, da ' . $product->name . ' nicht in der gewünschten Menge verfügbar ist.'));
                 return redirect()->route('cart.index');
             }
         }

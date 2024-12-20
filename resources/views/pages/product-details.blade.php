@@ -9,14 +9,14 @@
             <div class="col-10 d-block d-md-none">
                 <h2>{{ $product->name }}</h2>
                 <h6 class="my-2">{{ $availableStockText }} </h6>
-                <h6 class="my-2">Preis: {{ str_replace('.', ',', $product->price) }} €</h6>
+                <h6 class="my-2">{{ __('Preis: ') }}{{ str_replace('.', ',', $product->price) }} €</h6>
                 <div class="d-flex align-items-center my-2">
-                    <button class="btn btn-danger decrement">-</button>
+                    <button class="btn btn-danger decrement">- </button>
                     <input style="width: 50px;" class="form-control" value="0" type="text" name="amount"
                         id="">
                     <button class="btn btn-success increment">+</button>
                 </div>
-                <button type="button" class="btn btn-dark put-into-cart">In den Warenkorb</button>
+                <button type="button" class="btn btn-dark put-into-cart">{{ __('In den Warenkorb') }}</button>
                 <p>{!! $product->description !!}</p>
             </div>
             <div class="col-1 d-block d-md-none">
@@ -53,7 +53,7 @@
             <div class="col-4 d-none d-md-block">
                 <h2>{{ $product->name }}</h2>
                 <h6 class="my-2">{{ $availableStockText }}</h6>
-                <h6 class="my-2">Preis: {{ str_replace('.', ',', $product->price) }} €</h6>
+                <h6 class="my-2">{{ __('Preis: ') }}{{ str_replace('.', ',', $product->price) }} €</h6>
                 <div class="d-flex align-items-center my-2">
                     <button class="btn btn-danger decrement">-</button>
                     <input style="width: 50px;" class="form-control" value="0" type="text" name="amount"
@@ -61,7 +61,7 @@
                     <button class="btn btn-success increment">+</button>
                 </div>
                 @if($availableStock>0)
-                <button type="button" class="btn btn-dark put-into-cart">In den Warenkorb</button>
+                <button type="button" class="btn btn-dark put-into-cart">{{ __('In den Warenkorb') }}</button>
                 @endif
                 <p>{!! $product->description !!}</p>
             </div>
@@ -100,14 +100,14 @@
                             amount: $('input[name="amount"]').val()
                         },
                         success: function(response) {
-                            notyf.success('Das Produkt wurde in den Warenkorb gelegt!');
+                            notyf.success('{{ __('Das Produkt wurde in den Warenkorb gelegt!') }}');
                             let cartAmount = $('.cart-amount');
                             cartAmount.text(parseInt(cartAmount.text()) + 1);
                         },
                         error: function(response) {
                             //If the field response.msg exists, show the message with notyf.error() otherwise show a default message
                             const defaultErrorMessage =
-                                'Das Produkt konnte nicht in den Warenkorb gelegt werden!';
+                                '{{ __('Das Produkt konnte nicht in den Warenkorb gelegt werden!') }}';
                             try {
                                 response = JSON.parse(response.responseText);
                             } catch (e) {
@@ -120,7 +120,6 @@
                                 notyf.error(response.message);
                             } else {
                                 notyf.error(defaultErrorMessage);
-                            }
                         }
 
                     });

@@ -4,7 +4,7 @@ use App\Enums\PaymentMethod;
 <x-app-layout>
     <x-order-step-statusbar step="3" />
     <section class="py-5 px-5">
-       <h4>Bitte wählen Sie Ihre Zahlungsmethode</h4>
+       <h4>{{ __('Bitte wählen Sie Ihre Zahlungsmethode') }}</h4>
        <form action="{{ route('order.processPayment') }}" method="post">
          @csrf
          <div class="form-check mt-2">
@@ -20,7 +20,7 @@ use App\Enums\PaymentMethod;
             </label>
          </div>
          <div class="d-flex justify-content-end mt-3">
-            <button type="submit" class="btn btn-primary">Kostenpflichtig bestellen</button>
+            <button type="submit" class="btn btn-primary">{{ __('Kostenpflichtig bestellen') }}</button>
          </div>
        </form>
     </section>

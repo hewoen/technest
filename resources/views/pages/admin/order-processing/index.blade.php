@@ -1,15 +1,15 @@
 <x-app-layout>
     <section class="py-5 px-5 admin-dashboard">
-        <h4>{{ $state=="open" ? "Offene Bestellungen" : "Geschlossene Bestellungen" }}</h4>
+        <h4>{{ $state=="open" ? __('Offene Bestellungen') : __('Geschlossene Bestellungen') }}</h4>
         <table class="table">
             <thead>
                 <tr>
-                    <th scope="col">Bestellnummer</th>
-                    <th scope="col">Datum</th>
-                    <th scope="col">Bezahlmethode</th>
-                    <th scope="col">Status</th>
-                    <th scope="col">Gesamtbetrag</th>
-                    <th scope="col">Verwalten</th>
+                    <th scope="col">{{ __('Bestellnummer') }}</th>
+                    <th scope="col">{{ __('Datum') }}</th>
+                    <th scope="col">{{ __('Bezahlmethode') }}</th>
+                    <th scope="col">{{ __('Status') }}</th>
+                    <th scope="col">{{ __('Gesamtbetrag') }}</th>
+                    <th scope="col">{{ __('Verwalten') }}</th>
                 </tr>
             </thead>
             <tbody>

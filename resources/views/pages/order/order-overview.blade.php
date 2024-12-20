@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-order-step-statusbar step="2" />
     <section class="py-5 px-5">
-        <h2>Rechnungs- und Lieferadresse</h2>
+        <h2>{{ __('Rechnungs- und Lieferadresse') }}</h2>
         <div class="row">
             <div class="col">
                 <div class="form-group">
@@ -82,14 +82,14 @@
             </div>
         </div>
         <hr>
-        <h4>Artikel</h4>
+        <h4>{{ __('Artikel') }}</h4>
         <table class="table">
             <thead class="thead-dark">
                 <tr>
                     <th scope="col d-none" class="d-none d-lg-table-cell">#</th>
-                    <th scope="col">Produkt</th>
-                    <th scope="col">Anzahl</th>
-                    <th scope="col">Preis</th>
+                    <th scope="col">{{ __('Produkt') }}</th>
+                    <th scope="col">{{ __('Anzahl') }}</th>
+                    <th scope="col">{{ __('Preis') }}</th>
                 </tr>
             </thead>
             <tbody>
@@ -119,12 +119,12 @@
                     $total += $item['product']->price * $item['amount'];
                 }
             @endphp
-            <h4>Gesamtpreis: {{ number_format($total, 2, ',', '.') }} €</h4>
+            <h4>{{ __('Gesamtpreis') }}: {{ number_format($total, 2, ',', '.') }} €</h4>
         </div>
         <div class="d-flex justify-content-end mt-3">
             <form action="{{ route('order.payment') }}" method="post">
                 @csrf
-                <button type="submit" class="btn btn-primary">Weiter</button>
+                <button type="submit" class="btn btn-primary">{{ __('Weiter') }}</button>
             </form>
         </div>
     </section>

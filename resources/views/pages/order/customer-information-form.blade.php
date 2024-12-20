@@ -8,9 +8,9 @@
             @endforeach
         @endif
         <div class="card">
-            <div class="card-header d-flex justify-content-between">Liefer- und Rechnungsadresse <button
-                    onclick="if(confirm('Möchten Sie wirklich den Bestellprozess an dieser Stelle abbrechen?')) window.location.replace('{{ route('cart.index') }}')"
-                    class="btn btn-primary">Zurück</button></div>
+            <div class="card-header d-flex justify-content-between">{{ __('Liefer- und Rechnungsadresse') }} <button
+                    onclick="if(confirm('{{ __('Möchten Sie wirklich den Bestellprozess an dieser Stelle abbrechen?') }}')) window.location.replace('{{ route('cart.index') }}')"
+                    class="btn btn-primary">{{ __('Zurück') }}</button></div>
             <div class="card-body">
                 <form method="POST" action="{{ route('order.process-customer-information') }}">
                     @csrf
@@ -96,7 +96,7 @@
                         </div>
                     </div>
                     <div class="d-flex justify-content-end mt-3">
-                        <button type="submit" class="btn btn-primary mt-2">Weiter</button>
+                        <button type="submit" class="btn btn-primary mt-2">{{ __('Weiter') }}</button>
                     </div>
                 </form>
             </div>

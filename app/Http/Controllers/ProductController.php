@@ -40,7 +40,7 @@ class ProductController extends Controller
             $productImage->path = "/storage/" . $image->store('uploads', 'public');
             $productImage->save();
         }
-        show_notification('success', 'Das Produkt wurde erfolgreich erstellt.');
+        show_notification('success', __('Das Produkt wurde erfolgreich erstellt.'));
         return redirect()->route('dashboard');
     }
 
@@ -106,7 +106,7 @@ class ProductController extends Controller
         }
         $product->save();
 
-        show_notification('success', 'Das Produkt wurde erfolgreich aktualisiert.');
+        show_notification('success', __('Das Produkt wurde erfolgreich aktualisiert.'));
         return redirect()->route('products.edit', $product->id);
     }
 
@@ -120,7 +120,7 @@ class ProductController extends Controller
             File::delete($path);
         }
         $product->delete();
-        show_notification('success', 'Das Produkt wurde erfolgreich gelöscht.');
+        show_notification('success', __('Das Produkt wurde erfolgreich gelöscht.'));
         return redirect()->route('dashboard');
     }
 }

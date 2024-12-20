@@ -6,8 +6,8 @@
             @endforeach
         @endif
         <div class="card">
-            <div class="card-header d-flex justify-content-between">Produkt bearbeiten <a href="{{ route('dashboard') }}"
-                    class="btn btn-primary">Zurück</a></div>
+            <div class="card-header d-flex justify-content-between">{{ __('Produkt bearbeiten') }} <a href="{{ route('dashboard') }}"
+                    class="btn btn-primary">{{ __('Zurück') }}</a></div>
             <div class="card-body">
                 <div class="col-md-auto">
                     <form id="editProductForm" enctype="multipart/form-data" method="POST"
@@ -17,15 +17,14 @@
                         <input type="hidden" id="order" name="order" value="{[]}">
                         <input type="hidden" id="delete" name="delete" value="{[]}">
                         <div class="form-group">
-                            <label for="exampleInputEmail1">Name</label>
+                            <label for="exampleInputEmail1">{{ __('Name') }}</label>
                             <input value='{{ $product->name }}' name="name" type="text" class="form-control"
                                 id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="">
                         </div>
                         <div class="form-group">
-                            <label for="exampleFormControlFile1">Bilder</label>
+                            <label for="exampleFormControlFile1">{{ __('Bilder') }}</label>
                             <div id="images">
                                 @foreach ($product->images as $image)
-                                    {{-- <img draggable ondrag="console.log('drag')" ondragover="event.preventDefault()" ondrop="console.log(event.target.getAttribute('data-id'))" src="{{ $image->path }}" data-id="{{ $image->id }}" class="thumbnail" alt=""> --}}
                                     <img src="{{ $image->path }}" data-id="{{ $image->id }}" class="thumbnail me-1"
                                         alt="">
                                 @endforeach
@@ -33,51 +32,27 @@
                             <input class="form-control" type="file" id="files" name="images[]" multiple>
                         </div>
                         <div class="form-group">
-                            <label class="form-check-label" for="exampleCheck1">Bestand</label>
+                            <label class="form-check-label" for="exampleCheck1">{{ __('Bestand') }}</label>
                             <input value="{{ $product->stock }}" style="width: 80px;" type="number" name="stock"
                                 class="form-control" id="quantity" name="quantity" value="1" min="0">
                         </div>
                         <div class="form-group">
-                            <label class="form-check-label" for="exampleCheck1">Preis</label>
+                            <label class="form-check-label" for="exampleCheck1">{{ __('Preis') }}</label>
                             <input value="{{ $product->price }}" style="width: 80px;" type="number" name="price"
                                 step="0.01" placeholder="0.00" class="form-control" name="price" id="quantity"
                                 name="price">
                         </div>
                         <div class="form-group">
-                            <label for="comment">Beschreibung:</label>
+                            <label for="comment">{{ __('Beschreibung:') }}</label>
                             <textarea class="form-control" id="editor" name="description" id="comment">{!! $product->description !!}</textarea>
                         </div>
-                        <button type="submit" class="btn btn-primary mt-2">Produkt ändern</button>
+                        <button type="submit" class="btn btn-primary mt-2">{{ __('Produkt ändern') }}</button>
                     </form>
                 </div>
             </div>
         </div>
     </div>
-    {{-- <div class="row justify-content-md-center">
-      <div class="col-md-auto">
-          <form enctype="multipart/form-data" method="POST" action="{{ route('products.store') }}">
-              <div class="form-group">
-                  <label for="exampleInputEmail1">Name</label>
-                  <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
-                      placeholder="Enter Name">
-              </div>
-              <div class="form-group">
-                  <label for="exampleFormControlFile1">Images</label>
-                  <input type="file" id="files" name="files[]" multiple>
-              </div>
-              <div class="form-group">
-                  <label class="form-check-label" for="exampleCheck1">Stock</label>
-                  <input style="width: 70px;" type="number" class="form-control" id="quantity" name="quantity"
-                      value="1" min="1">
-              </div>
-              <div class="form-group">
-                  <label for="comment">Description:</label>
-                  <textarea class="form-control" rows="5" id="comment"></textarea>
-              </div>
-              <button type="submit" class="btn btn-primary">Submit</button>
-          </form>
-      </div>
-  </div> --}}
+
     <x-slot name="scripts">
         <script>
             let draggedImageId = null;
