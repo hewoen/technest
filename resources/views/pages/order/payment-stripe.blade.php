@@ -13,7 +13,7 @@
         <script>
             // Initialize Stripe.js
             const stripe = Stripe(
-                '{{ env('STRIPE_PUBLIC_KEY') }}'
+                '{{ config('services.stripe.public_key') }}'
     
             );
     

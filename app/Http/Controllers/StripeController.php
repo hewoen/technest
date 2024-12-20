@@ -43,7 +43,7 @@ class StripeController extends Controller
     }
 
     $stripe = new \Stripe\StripeClient(
-      env('STRIPE_PRIVATE_KEY')
+      config('services.stripe.private_key')
     );
 
 
@@ -71,7 +71,7 @@ class StripeController extends Controller
     $this->clearReservations(session()->get('order_id'));
 
     $stripe = new \Stripe\StripeClient(
-      env('STRIPE_PRIVATE_KEY')
+      config('services.stripe.private_key')
     );
     $session = $stripe->checkout->sessions->retrieve($session_id);
     $payment_status = $session->payment_status;

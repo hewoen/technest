@@ -8,7 +8,11 @@ use App\Http\Controllers\ProductController;
 use App\Models\Product;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\StripeController;
+use Illuminate\Support\Facades\URL;
 
+if (config('app.env') == 'production') {
+    URL::forceScheme('https');
+}
 
 Route::get('/', function () {
     $products = Product::all();
